@@ -4,11 +4,31 @@
   "description": "A web assistant to add custom buttons to execute custom scripts.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config production.config.js | tee -a logs/build-production_`date +%Y-%m-%d`.txt",
+    "build-development": "webpack --config development.config.js | tee -a logs/build-development_`date +%Y-%m-%d`.txt",
+    "test": "echo 'Error: no test specified yet!' && exit 1"
   },
   "keywords": [
     "Web-Assistant"
   ],
   "author": "Fisher",
+  "devDependencies": {
+    "@material-ui/core": "^3.3.1",
+    "@material-ui/icons": "^3.0.1",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
+  },
   "license": "ISC"
 }
