@@ -1,0 +1,14 @@
+{
+  "name": "web-assitant",
+  "version": "0.9.0",
+  "description": "A web assistant to add custom buttons to execute custom scripts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Web-Assistant"
+  ],
+  "author": "Fisher",
+  "license": "ISC"
+}
