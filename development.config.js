@@ -5,10 +5,14 @@ module.exports = {
 	// Don't attempt to continue if there are any errors.
 	bail: true,
 	devtool: 'source-map',
-	entry: './src',
+	// @see https://webpack.js.org/concepts/output/
+	entry: {
+		options: './src',
+		contents: './src/content-script.js',
+	},
 	output: {
 		path: __dirname + '/dist',
-		filename: 'main.js',
+		filename: '[name].js',
 	},
 	module: {
 		rules: [
@@ -17,9 +21,9 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /(node_modules|bower_components)/,
 				use: {
-					loader: 'babel-loader'
-				}
-			}
-		]
-	}
+					loader: 'babel-loader',
+				},
+			},
+		],
+	},
 };
