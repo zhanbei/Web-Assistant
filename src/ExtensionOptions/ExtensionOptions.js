@@ -12,11 +12,14 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import IconMenu from '@material-ui/icons/Menu';
 
 import SimpleEntityEditor from '../../mui-lib/SimpleEntityEditor/SimpleEntityEditor';
 import AdvancedTextField from '../../mui-lib/AdvancedTextField/AdvancedTextField';
 import DialogToConfirm from '../../mui-lib/DialogToConfirm/DialogToConfirm';
+
+const ChromeStorageManager = require('../DataManagers/ChromeStorageManager');
 
 const muiStyles = require('./mui-styles');
 const strings = require('./strings');
@@ -33,24 +36,22 @@ const mActionFields = [
 	_action.filter,
 ];
 
-let _id = 1;
-const mActions = [{
-	_id: _id++,
-	name: 'Hello World',
-	description: 'A test action to print hello to console on page load.',
-	buttonText: 'Hello',
-	script: 'console.log(\'Hello world, from #Web-Assistant$Hello-World\');',
-}, {
-	_id: _id++,
-	name: 'Hola on Zhihu',
-	description: 'A test action to print hello to console on zhihu page load.',
-	buttonText: 'Hola Zhihu',
-	script: 'console.log(\'Hello world, from #Web-Assistant to Hola-for-Zhihu\');',
-	filter: '*.zhihu.com',
-}];
-
 class ExtensionOptions extends React.Component {
+	static getDerivedStateFromProps(nextProps, prevState) {
+		const actions = ChromeStorageManager.getCachedPageActions() || [];
+		const {selectedActionId, selectedAction} = prevState;
+		const action = selectedActionId ? actions.find(action => action._id === selectedActionId) : undefined;
+		return {
+			actions: ChromeStorageManager.getCachedPageActions(),
+			// Reset the selected action since it may be deleted.
+			selectedAction: action || selectedAction,
+			selectedActionId: action ? action._id : undefined,
+		};
+	}
+
 	state = {
+		actions: ChromeStorageManager.getCachedPageActions(),
+
 		navigatorMenuSwitch: false,
 
 		// Empty object to create; valid action to update; null/undefined as unselected.
@@ -62,6 +63,22 @@ class ExtensionOptions extends React.Component {
 		isReadyToUpdate: false,
 
 		patch: {},
+	};
+
+	componentDidMount() {
+		ChromeStorageManager.addOnStorageDataChangeListener(this.onStorageDataChanged);
+	};
+
+	componentWillUnmount() {
+		ChromeStorageManager.removeOnStorageDataChangeListener(this.onStorageDataChanged);
+	}
+
+	onStorageDataChanged = (_actions) => {
+		const actions = ChromeStorageManager.getCachedPageActions() || [];
+		console.log('actions changed:', actions, _actions === actions);
+		this.setState({
+			actions: actions,
+		});
 	};
 
 	doOpenNavigatorMenu = () => this.setState({navigatorMenuSwitch: true});
@@ -83,11 +100,26 @@ class ExtensionOptions extends React.Component {
 		});
 	};
 
+	onDeleteAction = () => {
+		this.setState({
+			navigatorMenuSwitch: false,
+
+			selectedAction: null,
+			selectedActionId: null,
+
+			isCreatingAction: true,
+			isReadyToCreate: false,
+			isReadyToUpdate: false,
+
+			patch: {},
+		});
+	};
+
 	onSelectAction = (actionId) => {
-		const {selectedActionId} = this.state;
+		const {actions, selectedActionId} = this.state;
 		if (selectedActionId === actionId) {return;}
 		if (!actionId) {return console.warn('Received empty actionId:', actionId);}
-		const action = mActions.find((action) => action._id === actionId);
+		const action = actions.find((action) => action._id === actionId);
 		if (!action) {return console.warn('Failed to find the action by given actionId:', actionId);}
 
 		this.setState({
@@ -125,35 +157,35 @@ class ExtensionOptions extends React.Component {
 				return;
 			}
 			console.log('Ready to create action', selectedAction, patch);
-			const mNewAction = {_id: _id++, ...selectedAction, ...patch};
-			mActions.push(mNewAction);
-			this.onSelectAction(mNewAction._id);
+			ChromeStorageManager.newPageAction(patch).then((action) => {
+				this.onSelectAction(action._id);
+			});
 			return;
 		}
 
 		// Updating an existed selectedAction.
-		if (!isReadyToUpdate || !utils.isEmpty(patch) && utils.isValid({...selectedAction, ...patch})) {
+		if (!isReadyToUpdate || utils.isEmpty(patch) || !utils.isValid({...selectedAction, ...patch})) {
 			console.error('Not ready to update action:', selectedAction, patch);
 			return;
 		}
 		console.log('Ready to update action:', selectedAction, patch);
-		Object.assign(selectedAction, patch);
-		this.setState({
-			// FIX-ME Reconstruct the selectedAction?
-			selectedAction: selectedAction,
-			patch: {},
+		ChromeStorageManager.updatePageAction(selectedAction._id, patch).then((action) => {
+			this.setState({
+				isReadyToUpdate: false,
+				selectedActionId: action._id,
+				// FIX-ME Reconstruct the selectedAction?
+				selectedAction: action,
+				patch: {},
+			});
 		});
 	};
 
-	onDeleteAction = () => {
+	doDeleteAction = () => {
 		const {isCreatingAction, isReadyToUpdate, selectedAction} = this.state;
 		if (isCreatingAction || isReadyToUpdate) {return;}
-		const index = mActions.indexOf(selectedAction);
-		if (index < 0) {return console.warn('Failed to find the selected action.', selectedAction);}
-		mActions.splice(index, 1);
-		this.setState({
-			selectedAction: null,
-			patch: {},
+		ChromeStorageManager.deletePageAction(selectedAction._id).then(action => {
+			console.log('Page Action Deleted:', action);
+			this.onDeleteAction();
 		});
 	};
 
@@ -178,13 +210,13 @@ class ExtensionOptions extends React.Component {
 		);
 	};
 
-	renderEntityEditor = ({classes} = this.props, {isCreatingAction, isReadyToCreate, isReadyToUpdate, selectedAction, patch} = this.state) => {
+	renderEntityEditor = ({classes} = this.props, {actions, isCreatingAction, isReadyToCreate, isReadyToUpdate, selectedAction, patch} = this.state) => {
 		if (!selectedAction) {
 			return (
 				<div>
 					<Typography variant='h4' gutterBottom>{strings.titleActionEditor}</Typography>
 					<Typography variant='body1' style={{margin: '2em 4px'}}>
-						{!mActions || mActions.length === 0 ? strings.noticeEmptyActions : strings.noticeNoSelectedAction}
+						{!actions || actions.length === 0 ? strings.noticeEmptyActions : strings.noticeNoSelectedAction}
 					</Typography>
 					<Hidden mdUp>
 						{this.renderNavigatorMenu()}
@@ -231,7 +263,7 @@ class ExtensionOptions extends React.Component {
 					buttonCancelText={strings.buttonCancelDeletion}
 					buttonConfirmText={strings.buttonDoDeleteAction}
 					dialogTitle={strings.titleDialogDeleteAction}
-					onConfirm={this.onDeleteAction}
+					onConfirm={this.doDeleteAction}
 				/>
 			</div>
 		);
@@ -258,19 +290,24 @@ class ExtensionOptions extends React.Component {
 		</Hidden>
 	);
 
-	renderNavigatorMenu = ({classes} = this.props, {selectedActionId} = this.state) => (
+	renderNavigatorMenu = ({classes} = this.props, {actions, selectedActionId} = this.state) => (
 		<div>
 			<List subheader={<ListSubheader>{strings.titlePageActions}</ListSubheader>}>
-				{mActions.map(action => (
+				{actions ? actions.map(action => (
 					<div
 						key={action._id}
 						className={action._id === selectedActionId ? classes.selectedItem : classes.unselectedItem}
 					>
 						<ListItem button onClick={() => this.onSelectAction(action._id)}>
-							<Typography color='inherit' variant='subtitle1'>{action.name}</Typography>
+							<ListItemText
+								primary={action.name}
+								primaryTypographyProps={{color: 'inherit', noWrap: true}}
+								secondary={action.description || action.filter || action.buttonText || undefined}
+								secondaryTypographyProps={{color: 'inherit', noWrap: true}}
+							/>
 						</ListItem>
 					</div>
-				))}
+				)) : undefined}
 			</List>
 			<div style={{height: '24px'}}/>
 			<Button variant='contained' color='primary' onClick={this.onCreateAction} style={{width: '92%', margin: '0 4%'}}>
