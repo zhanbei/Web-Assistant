@@ -26,7 +26,17 @@ module.exports = {
 	title: 'Options - Web Assistant',
 	// titleHtml: 'Options - Web Assistant',
 	titleActionEditor: 'Action Editor',
-	buttonSaveAction: 'Save Action',
+	titleCreatingAction: 'Creating Page Action',
+	titlePageActions: 'Page Actions',
+	buttonOnCreateAction: 'Create Action',
+	buttonDoCreateAction: 'Create Action',
+	buttonDoUpdateAction: 'Save Changes',
+	titleDialogDeleteAction: 'Delete this page action?',
+	buttonOnDeleteAction: 'Delete Action',
+	buttonDoDeleteAction: 'Do Delete',
+	buttonCancelDeletion: 'Cancel',
+	noticeEmptyActions: 'No valid action(s) found, and you may create new actions now.',
+	noticeNoSelectedAction: 'No action is selected, and you may select an action or create new actions.',
 
 	// The requirements of fields should be consistent with the validators in ./utils.
 	action: {
