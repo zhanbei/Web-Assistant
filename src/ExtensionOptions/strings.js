@@ -98,7 +98,7 @@ module.exports = {
 			...defaultOptions,
 			id: 'filter',
 			label: 'URL Filter',
-			placeholder: 'The URL filter!',
+			placeholder: 'The URL filter, you may use "*.example.com" to match all sites of example.com',
 		},
 	},
 };
