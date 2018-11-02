@@ -9,11 +9,14 @@ module.exports = {
 	// We generate sourcemaps in production. This is slow but gives good results.
 	// You can exclude the *.map files from the build during deployment.
 	devtool: 'source-map',
-	entry: './src',
+	// @see https://webpack.js.org/concepts/output/
+	entry: {
+		options: './src',
+		contents: './src/content-script.js',
+	},
 	output: {
-		filename: 'main.js',
-		chunkFilename: 'main.chunk.js',
-		path: __dirname + '/dist'
+		filename: '[name].js',
+		path: __dirname + '/dist',
 	},
 	module: {
 		rules: [
@@ -21,14 +24,14 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /(node_modules|bower_components)/,
 				use: {
-					loader: 'babel-loader'
-				}
-			}
-		]
+					loader: 'babel-loader',
+				},
+			},
+		],
 	},
 	plugins: [
 		// This helps ensure the builds are consistent if source hasn't changed:
-		new webpack.optimize.OccurrenceOrderPlugin()
+		new webpack.optimize.OccurrenceOrderPlugin(),
 	],
 	resolve: {
 		// Using PReact to substitute for React.
@@ -37,5 +40,5 @@ module.exports = {
 		// 	'react': "preact-compat",
 		// 	'react-dom': "preact-compat"
 		// }
-	}
+	},
 };
