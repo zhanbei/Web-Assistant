@@ -23,11 +23,15 @@ A Chrome extension to add custom buttons to execute custom scripts.
 
 ## Scripts
 
+## Actions
+
+Define `Action` as the `Script` with its corresponding `Button(s)`.
+
 ## URL Filters
 
 ## Local Storage
 
-- (Button 1:1 Script) 1:n URL Filters
+- Action 1:n URL Filters
 
 ## Entity
 
@@ -37,3 +41,18 @@ A Chrome extension to add custom buttons to execute custom scripts.
 - Button Type
 - Script
 - URL Filters
+
+## Pages and Modules
+
+- [ ] Extension Options
+	- Actions Editor
+- [ ] Extension Icon Popover
+	- URL Filters Editor
+- [ ] Page Content
+	- Action Loaders
+- [ ] Data Manager
+	- Chrome Storage
+
+## References
+
+- Chrome Extensions Development: https://developer.chrome.com/extensions
