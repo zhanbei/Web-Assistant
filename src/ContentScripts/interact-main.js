@@ -30,11 +30,13 @@ export const fnMakingButtonsFloat = (mActionsMap) => {
 			// logger.log('NOT executing the click event.');
 		} else {
 			if (actionId) {
-				const script = mActionsMap.get(actionId);
-				if (!script) {
+				const action = mActionsMap.get(actionId);
+				if (!action) {
 					logger.warn('Failed to find the expected action by action._id attached with dom:', mActionsMap, actionId);
+				} else if (!action.script) {
+					logger.warn('Empty script found of the expected action:', action, action.script);
 				} else {
-					const out = eval(mActionsMap.get(actionId));
+					const out = eval(action.script);
 					logger.debug('Executed action script:', out);
 				}
 			} else {
