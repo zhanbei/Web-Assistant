@@ -4,8 +4,8 @@
   "description": "A web assistant to add custom buttons to execute custom scripts.",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config production.config.js | tee -a logs/build-production_`date +%Y-%m-%d`.txt",
-    "build-development": "webpack --config development.config.js | tee -a logs/build-development_`date +%Y-%m-%d`.txt",
+    "build": "(webpack --config production.config.js | tee -a logs/build-production_`date +%Y-%m-%d`.txt) && printf '\\n' && cp -v dist/*.js extensions/chrome/",
+    "build-development": "(webpack --config development.config.js | tee -a logs/build-development_`date +%Y-%m-%d`.txt) && printf '\\n' && cp -v dist/*.js extensions/chrome/",
     "test": "echo 'Error: no test specified yet!' && exit 1"
   },
   "keywords": [
