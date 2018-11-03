@@ -14,6 +14,7 @@ A Chrome extension to add custom buttons to execute custom scripts.
 ## Button Types
 
 - [ ] No Button
+	- Execute script on page loaded.
 - [ ] Fixed Buttons
 - [ ] Floating Button
 - [ ] Floating Buttons
@@ -35,12 +36,15 @@ Define `Action` as the `Script` with its corresponding `Button(s)`.
 
 ## Entity
 
-- Name
-- Description
-- Button Text
-- Button Type
-- Script
-- URL Filters
+<!-- `- [x]` stands for required field while `- [ ]` stands for optional field. -->
+- [x] Name
+- [x] Enabled `false`
+- [ ] Description
+- [ ] Buttons
+	- [x] Button Text
+	- [x] Button Type
+- [x] Script
+- [ ] URL Filters
 
 ## Pages and Modules
 

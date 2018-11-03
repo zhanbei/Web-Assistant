@@ -1,0 +1,4 @@
+
+# Ignore all the generated bundles.
+*.js
+*.js.map

@@ -1,0 +1,9 @@
+[submodule ".configs"]
+	path = .configs
+	url = https://github.com/zhanbei/react-materialui-webpack-babel-configs.git
+[submodule "mui-lib"]
+	path = mui-lib
+	url = https://github.com/zhanbei/mui-lib.git
+[submodule "src/utils"]
+	path = src/utils
+	url = https://github.com/zhanbei/js-utils
