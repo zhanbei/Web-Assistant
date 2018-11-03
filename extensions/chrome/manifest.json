@@ -25,6 +25,9 @@
 			"run_at": "document_idle"
 		}
 	],
+	"web_accessible_resources": [
+		"libs/interact.min.js"
+	],
 	"options_ui": {
 		"page": "options.html",
 		"open_in_tab": true
