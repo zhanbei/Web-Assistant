@@ -17,7 +17,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"*://*.zhihu.com/*"
+				"*://*/*"
 			],
 			"js": [
 				"contents.js"
@@ -31,7 +31,7 @@
 	},
 	"permissions": [
 		"tabs",
-		"*://*.zhihu.com/*",
+		"*://*/*",
 		"storage"
 	]
 }
