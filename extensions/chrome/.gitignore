@@ -1,4 +1,4 @@
 
 # Ignore all the generated bundles.
-*.js
-*.js.map
+options.js
+contents.js
