@@ -55,13 +55,15 @@ Define `Action` as the `Script` with its corresponding `Button(s)`.
 
 ## Pages and Modules
 
-- [ ] Extension Options
+@see `./documents/Pages-and-Modules.md`
+
+- Extension Options
 	- Actions Editor
 - [ ] Extension Icon Popover
 	- URL Filters Editor
-- [ ] Page Content
+- Content Scripts
 	- Action Loaders
-- [ ] Data Manager
+- Data Manager
 	- Chrome Storage
 
 ## References
