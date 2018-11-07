@@ -11,6 +11,10 @@ titles:
 
 A Chrome extension to add custom buttons to execute custom scripts.
 
+## Preferences
+
+- [ ] Default Button Position: `right-bottom`.
+
 ## Button Types
 
 - [ ] No Button
@@ -36,9 +40,12 @@ Define `Action` as the `Script` with its corresponding `Button(s)`.
 
 ## Entity
 
-<!-- `- [x]` stands for required field while `- [ ]` stands for optional field. -->
+> The mark "`- [x]`" stands for required field while "`- [ ]`" stands for optional field.
+
 - [x] Name
 - [x] Enabled `false`
+- [ ] Passive `true`
+	- Execute Script on Page Load
 - [ ] Description
 - [ ] Buttons
 	- [x] Button Text
