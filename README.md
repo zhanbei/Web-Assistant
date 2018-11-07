@@ -59,6 +59,8 @@ Define `Action` as the `Script` with its corresponding `Button(s)`.
 
 - Extension Options
 	- Actions Editor
+	- [ ] Import and Export Actions
+	- [ ] Extension Preferences
 - [ ] Extension Icon Popover
 	- URL Filters Editor
 - Content Scripts

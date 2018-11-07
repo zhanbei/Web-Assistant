@@ -8,6 +8,8 @@ The document about the pages and modules of the extension.
 
 - Extension Options
 	- Actions Editor
+	- [ ] Import and Export Actions
+	- [ ] Extension Preferences
 - [ ] Extension Icon Popover
 	- URL Filters Editor
 - Content Scripts
@@ -22,3 +24,8 @@ The document about the pages and modules of the extension.
 - [ ] Analyze and document the editor of the `action.buttons`.
 - [ ] Implement the editor of the `action.buttons`.
 - [ ] Add #Selection to edit `action.button.type`.
+
+## Details
+
+- Extension Options
+	- @see `./Extension-Options.md`
