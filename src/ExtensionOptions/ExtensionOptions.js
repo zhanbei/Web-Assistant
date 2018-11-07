@@ -15,9 +15,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconMenu from '@material-ui/icons/Menu';
 
-import SimpleEntityEditor from '../../mui-lib/SimpleEntityEditor/SimpleEntityEditor';
 import AdvancedTextField from '../../mui-lib/AdvancedTextField/AdvancedTextField';
+import FieldSwitch from '../../mui-lib/FieldSwitch/FieldSwitch';
+import SimpleEntityEditor from '../../mui-lib/SimpleEntityEditor/SimpleEntityEditor';
 import DialogToConfirm from '../../mui-lib/DialogToConfirm/DialogToConfirm';
+import FieldCheckbox from '../../mui-lib/FieldCheckbox/FieldCheckbox';
 
 const ChromeStorageManager = require('../DataManagers/ChromeStorageManager');
 
@@ -29,7 +31,8 @@ const title = strings.title;
 const _action = strings.action;
 const mActionFields = [
 	_action.name,
-	// _action.enabled,
+	_action.enabled,
+	_action.passive,
 	_action.description,
 	_action.buttonText,
 	_action.script,
@@ -232,6 +235,8 @@ class ExtensionOptions extends React.Component {
 						onPatchChange={this.onPatchChange}
 						entityFields={mActionFields}
 						TextField={AdvancedTextField}
+						Switch={FieldSwitch}
+						Checkbox={FieldCheckbox}
 						targetEntity={selectedAction}
 						entityPatch={patch}
 					/>
@@ -249,6 +254,8 @@ class ExtensionOptions extends React.Component {
 					onPatchChange={this.onPatchChange}
 					entityFields={mActionFields}
 					TextField={AdvancedTextField}
+					Switch={FieldSwitch}
+					Checkbox={FieldCheckbox}
 					targetEntity={selectedAction}
 					entityPatch={patch}
 				/>

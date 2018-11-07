@@ -37,6 +37,7 @@ module.exports = {
 	buttonCancelDeletion: 'Cancel',
 	noticeEmptyActions: 'No valid action(s) found, and you may create new actions now.',
 	noticeNoSelectedAction: 'No action is selected, and you may select an action or create new actions.',
+	buttonExportActions: 'Export Existing Actions',
 
 	// The requirements of fields should be consistent with the validators in ./utils.
 	action: {
@@ -49,14 +50,21 @@ module.exports = {
 			getErrorText: (value) => (!value || !value.trim()) ? `The action name cannot be empty.` : null,
 		},
 		enabled: {
-			...defaultOptions,
 			id: 'enabled',
-			required: true,
 			// @see https://material-ui.com/demos/selection-controls/
 			// @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-			type: 'checkbox',
+			// @see https://material-ui.com/api/checkbox/
+			type: 'switch',
 			label: 'Enabled',
-			placeholder: 'Whether the action is enabled!',
+			// placeholder: 'Whether the action is enabled!',
+		},
+		// Whether to execute script on page load.
+		passive: {
+			id: 'passive',
+			// @see https://uxplanet.org/checkbox-vs-toggle-switch-7fc6e83f10b8
+			type: 'checkbox',
+			label: 'Execute Script on Page Load',
+			// placeholder: 'Whether to execute script on page load!',
 		},
 		description: {
 			...defaultOptions,
