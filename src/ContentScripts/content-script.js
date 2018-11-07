@@ -30,8 +30,8 @@ const fnExecutePageActions = (actions) => {
 	const executedActions = [];
 	const floatingButtonsActions = [];
 	actions.map((action) => {
-		if (!action.script) {return;}
-		action = {...action};
+		if (!action.script || !action.enabled) {return;}
+		action = {...action, output: ''};
 		action.href = location.href;
 		try {
 			if (action.filter) {
@@ -40,7 +40,7 @@ const fnExecutePageActions = (actions) => {
 				if (!reg.test(action.href)) {return;}
 				floatingButtonsActions.push(action);
 			}
-			action.output = eval(action.script);
+			if (action.passive) {action.output = eval(action.script);}
 		} catch (ex) {
 			action.ex = ex;
 		}
