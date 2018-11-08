@@ -2,6 +2,8 @@
 
 import ConsoleLogger from '../helpers/ConsoleLogger';
 
+const mDefaultActions = require('./default-actions');
+
 // @see https://developer.chrome.com/apps/storage
 export const CHROME_STORAGE_KEY = 'key';
 
@@ -9,14 +11,8 @@ const logger = new ConsoleLogger('ChromeStorageHelper');
 
 // Also use the default configurations when failed to parsing json string.
 export const DEFAULT_CONFIGURATIONS = {
-	nextId: 2,
-	actions: [{
-		_id: 1,
-		name: 'Hello World',
-		description: 'A test action to print hello to console on page load.',
-		buttonText: 'Hello',
-		script: 'console.log(\'Hello world, from #Web-Assistant$Hello-World\');',
-	}],
+	nextId: 1,
+	actions: mDefaultActions,
 };
 
 export const parseStorageData = (json) => {

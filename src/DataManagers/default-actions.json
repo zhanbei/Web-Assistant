@@ -1,0 +1,21 @@
+[
+	{
+		"_id": -1,
+		"enabled": true,
+		"passive": true,
+		"proactive": false,
+		"name": "Hello World",
+		"description": "A test action to print hello to console on page load.",
+		"script": "console.log('Hello world, from #Web-Assistant$Hello-World');"
+	},
+	{
+		"_id": -2,
+		"enabled": true,
+		"passive": false,
+		"proactive": true,
+		"name": "Hola Wikipedia",
+		"description": "",
+		"script": "alert('Hola, wiki wiki!');",
+		"filter": "*.wikipedia.org"
+	}
+]
