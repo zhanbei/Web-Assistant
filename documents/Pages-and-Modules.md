@@ -19,11 +19,13 @@ The document about the pages and modules of the extension.
 
 ## TO DO
 
-- [ ] Organizing documents.
-- [ ] Add #Switch to edit `action.enabled`.
-- [ ] Analyze and document the editor of the `action.buttons`.
+- [x] Organizing documents.
+- [x] Add #Switch to edit `action.enabled`.
+- [x] Analyze and document the editor of the `action.buttons`.
 - [ ] Implement the editor of the `action.buttons`.
 - [ ] Add #Selection to edit `action.button.type`.
+- [ ] Import and export actions.
+- [ ] Consider online market for users to share actions with each other.
 
 ## Details
 
