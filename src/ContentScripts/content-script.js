@@ -5,19 +5,19 @@
 import {h, render} from 'preact';
 import FloatingIconButton from './FloatingIconButton';
 import * as ChromeStorageManager from '../DataManagers/ChromeStorageManager';
-// import * as HtmlScriptLoader from './utils/HtmlScriptLoader';
-// const interact = require('../extensions/chrome/interact.min');
-// const INTERACT_SCRIPT_URL = 'https://unpkg.com/interactjs@1.3/dist/interact.min.js';
-/** @namespace chrome.runtime.getURL */
-const INTERACT_SCRIPT_URL = chrome.runtime.getURL('libs/interact.min.js');
-import * as main from './interact-main.js';
 import ConsoleLogger from '../helpers/ConsoleLogger';
+// import * as HtmlScriptLoader from './utils/HtmlScriptLoader';
+import * as main from './interact-main.js';
 
 // @see https://github.com/developit/preact
 // Tell Babel to transform JSX into h() calls:
 /** @jsx h */
 
 const logger = new ConsoleLogger('content-script');
+// const interact = require('../extensions/chrome/interact.min');
+// const INTERACT_SCRIPT_URL = 'https://unpkg.com/interactjs@1.3/dist/interact.min.js';
+/** @namespace chrome.runtime.getURL */
+const INTERACT_SCRIPT_URL = chrome.runtime.getURL('libs/interact.min.js');
 logger.log('RESOLVED SCRIPT URL:', INTERACT_SCRIPT_URL);
 
 ChromeStorageManager.addTempOnStorageDataChangeListener((actions) => {
