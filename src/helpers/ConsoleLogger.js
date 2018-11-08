@@ -11,5 +11,5 @@ export default ConsoleLogger;
 if (isDebugging) {
 	ConsoleLogger.setMinLoggingLevel(ConsoleLogger.LoggerVerbose.level);
 } else {
-	ConsoleLogger.setMinLoggingLevel(ConsoleLogger.LoggerWarning.level);
+	ConsoleLogger.setMinLoggingLevel(ConsoleLogger.LoggerInfo.level);
 }
