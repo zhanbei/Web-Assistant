@@ -3,6 +3,7 @@
 // import React from 'react';
 // import ReactDOM from 'react-dom';
 import {h, render} from 'preact';
+import FloatingIconButton from './FloatingIconButton';
 import * as ChromeStorageManager from '../DataManagers/ChromeStorageManager';
 // import * as HtmlScriptLoader from './utils/HtmlScriptLoader';
 // const interact = require('../extensions/chrome/interact.min');
@@ -38,9 +39,9 @@ const fnExecutePageActions = (actions) => {
 				action.exp = action.filter.trim().replace(/\./g, '\\.').replace(/\*/g, '.*') + '.*';
 				const reg = new RegExp(action.exp, 'i');
 				if (!reg.test(action.href)) {return;}
-				floatingButtonsActions.push(action);
 			}
 			if (action.passive) {action.output = eval(action.script);}
+			if (action.proactive) {floatingButtonsActions.push(action);}
 		} catch (ex) {
 			action.ex = ex;
 		}
@@ -53,6 +54,10 @@ const fnExecutePageActions = (actions) => {
 };
 
 const fnRenderFloatingButtonDoms = (floatingButtonsActions) => {
+	if (!floatingButtonsActions || floatingButtonsActions.length === 0) {return;}
+	// Use the first and probably the only action as the primary action.
+	const mPrimaryAction = floatingButtonsActions[0];
+
 	const holder = document.createElement('div');
 	document.body.appendChild(holder);
 
@@ -65,23 +70,10 @@ const fnRenderFloatingButtonDoms = (floatingButtonsActions) => {
 			top: '0%', left: '0%', right: '0%', bottom: '0%',
 			zIndex: 10000001, pointerEvents: 'none',
 		}}>
-			{floatingButtonsActions.map((action) => (
-				<div
-					key={action._id} className={main.CLASS_NAME_INTERACT_DRAGGABLE_BUTTONS}
-					style={{
-						display: 'inline-block', position: 'absolute',
-						right: '24px', bottom: '24px',
-						maxWidth: '50px', maxHeight: '50px', margin: '8px', padding: '8px',
-						borderRadius: '5px', backgroundColor: '#ffab00', color: 'white',
-						cursor: 'pointer', pointerEvents: 'auto',
-					}}
-					// onClick={() => eval(action.script)}
-					// data-click-event={() => eval(action.script)}
-					data-action-id={action._id}
-				>
-					<span style={{display: 'inline-block', width: '100%', height: '100%'}}>{action.buttonText}</span>
-				</div>
-			))}
+			<FloatingIconButton
+				key={mPrimaryAction._id}
+				actionId={mPrimaryAction._id}
+			/>
 		</div>
 	), holder);
 	fnLoadInteractScript(actionsMap);
