@@ -1,6 +1,6 @@
 {
   "name": "web-assitant",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A web assistant to add custom buttons to execute custom scripts.",
   "main": "src/index.js",
   "scripts": {

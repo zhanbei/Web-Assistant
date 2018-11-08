@@ -15,9 +15,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconMenu from '@material-ui/icons/Menu';
 
-import SimpleEntityEditor from '../../mui-lib/SimpleEntityEditor/SimpleEntityEditor';
 import AdvancedTextField from '../../mui-lib/AdvancedTextField/AdvancedTextField';
+import FieldSwitch from '../../mui-lib/FieldSwitch/FieldSwitch';
+import SimpleEntityEditor from '../../mui-lib/SimpleEntityEditor/SimpleEntityEditor';
 import DialogToConfirm from '../../mui-lib/DialogToConfirm/DialogToConfirm';
+import FieldCheckbox from '../../mui-lib/FieldCheckbox/FieldCheckbox';
+
+import ConsoleLogger from '../helpers/ConsoleLogger';
 
 const ChromeStorageManager = require('../DataManagers/ChromeStorageManager');
 
@@ -25,13 +29,17 @@ const muiStyles = require('./mui-styles');
 const strings = require('./strings');
 const utils = require('./utils');
 
+const logger = new ConsoleLogger('ExtensionOptions');
+
 const title = strings.title;
 const _action = strings.action;
 const mActionFields = [
 	_action.name,
-	// _action.enabled,
+	_action.enabled,
+	_action.passive,
 	_action.description,
-	_action.buttonText,
+	_action.proactive,
+	// _action.buttonText,
 	_action.script,
 	_action.filter,
 ];
@@ -75,7 +83,7 @@ class ExtensionOptions extends React.Component {
 
 	onStorageDataChanged = (_actions) => {
 		const actions = ChromeStorageManager.getCachedPageActions() || [];
-		console.log('actions changed:', actions, _actions === actions);
+		logger.log('actions changed:', actions, _actions === actions);
 		this.setState({
 			actions: actions,
 		});
@@ -118,9 +126,9 @@ class ExtensionOptions extends React.Component {
 	onSelectAction = (actionId) => {
 		const {actions, selectedActionId} = this.state;
 		if (selectedActionId === actionId) {return;}
-		if (!actionId) {return console.warn('Received empty actionId:', actionId);}
+		if (!actionId) {return logger.warn('Received empty actionId:', actionId);}
 		const action = actions.find((action) => action._id === actionId);
-		if (!action) {return console.warn('Failed to find the action by given actionId:', actionId);}
+		if (!action) {return logger.warn('Failed to find the action by given actionId:', actionId);}
 
 		this.setState({
 			navigatorMenuSwitch: false,
@@ -153,10 +161,10 @@ class ExtensionOptions extends React.Component {
 		const {isCreatingAction, isReadyToCreate, isReadyToUpdate, selectedAction, patch} = this.state;
 		if (isCreatingAction) {
 			if (!isReadyToCreate || !utils.isValid(patch)) {
-				console.error('Not ready to create action:', selectedAction, patch);
+				logger.error('Not ready to create action:', selectedAction, patch);
 				return;
 			}
-			console.log('Ready to create action', selectedAction, patch);
+			logger.log('Ready to create action', selectedAction, patch);
 			ChromeStorageManager.newPageAction(patch).then((action) => {
 				this.onSelectAction(action._id);
 			});
@@ -165,10 +173,10 @@ class ExtensionOptions extends React.Component {
 
 		// Updating an existed selectedAction.
 		if (!isReadyToUpdate || utils.isEmpty(patch) || !utils.isValid({...selectedAction, ...patch})) {
-			console.error('Not ready to update action:', selectedAction, patch);
+			logger.error('Not ready to update action:', selectedAction, patch);
 			return;
 		}
-		console.log('Ready to update action:', selectedAction, patch);
+		logger.log('Ready to update action:', selectedAction, patch);
 		ChromeStorageManager.updatePageAction(selectedAction._id, patch).then((action) => {
 			this.setState({
 				isReadyToUpdate: false,
@@ -184,7 +192,7 @@ class ExtensionOptions extends React.Component {
 		const {isCreatingAction, isReadyToUpdate, selectedAction} = this.state;
 		if (isCreatingAction || isReadyToUpdate) {return;}
 		ChromeStorageManager.deletePageAction(selectedAction._id).then(action => {
-			console.log('Page Action Deleted:', action);
+			logger.log('Page Action Deleted:', action);
 			this.onDeleteAction();
 		});
 	};
@@ -232,6 +240,8 @@ class ExtensionOptions extends React.Component {
 						onPatchChange={this.onPatchChange}
 						entityFields={mActionFields}
 						TextField={AdvancedTextField}
+						Switch={FieldSwitch}
+						Checkbox={FieldCheckbox}
 						targetEntity={selectedAction}
 						entityPatch={patch}
 					/>
@@ -249,6 +259,8 @@ class ExtensionOptions extends React.Component {
 					onPatchChange={this.onPatchChange}
 					entityFields={mActionFields}
 					TextField={AdvancedTextField}
+					Switch={FieldSwitch}
+					Checkbox={FieldCheckbox}
 					targetEntity={selectedAction}
 					entityPatch={patch}
 				/>

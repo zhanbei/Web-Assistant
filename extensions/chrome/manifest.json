@@ -2,7 +2,7 @@
 	"name": "Web Assistant",
 	"manifest_version": 2,
 	"description": "A web assistant to add custom buttons to execute custom scripts.",
-	"version": "0.8",
+	"version": "0.8.2",
 	"icons": {
 		"16": "icon.png",
 		"32": "icon.png",
@@ -26,6 +26,7 @@
 		}
 	],
 	"web_accessible_resources": [
+		"icon.png",
 		"libs/interact.min.js"
 	],
 	"options_ui": {

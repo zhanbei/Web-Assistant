@@ -1,7 +1,11 @@
 'use strict';
 
+import ConsoleLogger from '../helpers/ConsoleLogger';
+
 const EventListener = require('../utils/EventListener');
 const helper = require('./ChromeStorageHelper');
+
+const logger = new ConsoleLogger('ChromeStorageManager');
 
 let mStorageData = null;
 
@@ -19,7 +23,7 @@ export const getStorageData = () => {
 	});
 };
 getStorageData().then(() => {
-	// console.log('Resolved chrome storage data:', actions);
+	// logger.log('Resolved chrome storage data:', actions);
 });
 
 export const getCachedStorageData = () => mStorageData;
@@ -35,7 +39,7 @@ chrome.storage.onChanged.addListener(() => {
 
 export const updateStorageData = (data) => {
 	return new Promise((resolve) => {
-		console.log('Updating storage data:', JSON.stringify(data));
+		logger.debug('Updating storage data:', JSON.stringify(data));
 		chrome.storage.sync.set({[helper.CHROME_STORAGE_KEY]: JSON.stringify(data)}, () => {
 			// FIX-ME Resolve with the parsed action of on changed.
 			resolve(data);
