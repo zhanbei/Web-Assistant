@@ -73,6 +73,13 @@ module.exports = {
 			placeholder: 'The action description!',
 		},
 
+		proactive: {
+			id: 'proactive',
+			type: 'checkbox',
+			label: 'Add a floating icon button to execute the action script.',
+		},
+
+		// @obsolete(2018-11-08)
 		buttonType: {
 			...defaultOptions,
 			id: 'buttonType',
@@ -83,6 +90,7 @@ module.exports = {
 			default: types.NoButton,
 			getErrorText: (value) => (!value || !value.trim()) ? `The button type for the action cannot be empty.` : null,
 		},
+		// @obsolete(2018-11-08)
 		buttonText: {
 			...defaultOptions,
 			id: 'buttonText',

@@ -34,7 +34,8 @@ const mActionFields = [
 	_action.enabled,
 	_action.passive,
 	_action.description,
-	_action.buttonText,
+	_action.proactive,
+	// _action.buttonText,
 	_action.script,
 	_action.filter,
 ];
